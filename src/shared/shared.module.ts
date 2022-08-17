@@ -8,6 +8,8 @@ import { User, UserSchema } from './schemas/user.schema';
 import { SecurityService } from './services/security/security.service';
 import { JwtAuthStrategy } from './services/security/jwt-auth-strategy';
 import { PwdAuthStrategy } from './services/security/pwd-auth-strategy';
+import { Category, CategorySchema } from './schemas/Categories/category.schema';
+import { StorageService } from './services/storage/storage.service';
 
 @Module({
   imports: [
@@ -31,9 +33,10 @@ import { PwdAuthStrategy } from './services/security/pwd-auth-strategy';
       }),
     MongooseModule.forFeature([
       { name: User.name, schema: UserSchema },
+      { name: Category.name, schema: CategorySchema }
     ])
   ],
-  providers:[AuthService, SecurityService, JwtAuthStrategy, PwdAuthStrategy],
-  exports: [AuthService, SecurityService, PassportModule]
+  providers:[AuthService, SecurityService, JwtAuthStrategy, PwdAuthStrategy, StorageService],
+  exports: [AuthService, SecurityService, PassportModule, StorageService]
 })
 export class SharedModule {}
