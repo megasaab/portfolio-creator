@@ -1,9 +1,25 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from "@nestjs/mongoose";
-import { MONGO_PASS, MONGO_URL, MONGO_USER } from "../constants";
+import { JWT_EXPIRES_IN, JWT_SECRET, MONGO_PASS, MONGO_URL, MONGO_USER } from "../constants";
+import { AuthService } from './services/auth/auth.service';
+import { JwtModule } from '@nestjs/jwt';
+import { PassportModule } from "@nestjs/passport";
+import { User, UserSchema } from './schemas/user.schema';
+import { SecurityService } from './services/security/security.service';
+import { JwtAuthStrategy } from './services/security/jwt-auth-strategy';
+import { PwdAuthStrategy } from './services/security/pwd-auth-strategy';
 
 @Module({
   imports: [
+    PassportModule.register({
+      defaultStrategy: 'local',
+      session: false,
+      property: 'user',
+    }),
+    JwtModule.register({
+      secret: JWT_SECRET,
+      signOptions: { issuer: 'amazon-clone',  expiresIn: JWT_EXPIRES_IN },
+    }),
     MongooseModule.forRoot(MONGO_URL,
       {
         auth: {
@@ -13,6 +29,11 @@ import { MONGO_PASS, MONGO_URL, MONGO_USER } from "../constants";
         authSource: 'admin',
         useNewUrlParser: true,
       }),
-  ]
+    MongooseModule.forFeature([
+      { name: User.name, schema: UserSchema },
+    ])
+  ],
+  providers:[AuthService, SecurityService, JwtAuthStrategy, PwdAuthStrategy],
+  exports: [AuthService, SecurityService, PassportModule]
 })
 export class SharedModule {}
