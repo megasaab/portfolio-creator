@@ -10,6 +10,7 @@ import { JwtAuthStrategy } from './services/security/jwt-auth-strategy';
 import { PwdAuthStrategy } from './services/security/pwd-auth-strategy';
 import { Category, CategorySchema } from './schemas/Categories/category.schema';
 import { StorageService } from './services/storage/storage.service';
+import { Vendor, VendorSchema } from './schemas/Vendors/vendor.schema';
 
 @Module({
   imports: [
@@ -33,7 +34,8 @@ import { StorageService } from './services/storage/storage.service';
       }),
     MongooseModule.forFeature([
       { name: User.name, schema: UserSchema },
-      { name: Category.name, schema: CategorySchema }
+      { name: Category.name, schema: CategorySchema },
+      { name: Vendor.name, schema: VendorSchema}
     ])
   ],
   providers:[AuthService, SecurityService, JwtAuthStrategy, PwdAuthStrategy, StorageService],
