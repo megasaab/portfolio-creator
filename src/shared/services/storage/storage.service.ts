@@ -4,12 +4,13 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { HttpResponse } from '../../../response';
 import { INTERNAL_ERROR } from '../../../constants';
+import { SecurityService } from '../security/security.service';
 
 @Injectable()
 export class StorageService {
   private readonly logger = new Logger(StorageService.name);
 
-  constructor(@InjectModel(Category.name) private categoryModel: Model<CategoryDocument>) {
+  constructor(@InjectModel(Category.name) private categoryModel: Model<CategoryDocument>, private securityService: SecurityService) {
   }
 
   async createProductsInStorage(dto: Category) {
@@ -17,6 +18,14 @@ export class StorageService {
     let httpResponse: HttpResponse;
 
     try {
+
+      dto.subCategory.forEach(subCategory => {
+        subCategory.uuid = this.securityService.generateUuid();
+        subCategory.products.forEach(products => {
+          products.uuid = this.securityService.generateUuid();
+        });
+      });
+
       const category: Category = await this.categoryModel.create(dto);
 
       if (category) {

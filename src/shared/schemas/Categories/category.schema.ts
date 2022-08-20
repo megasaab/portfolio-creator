@@ -1,19 +1,22 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { User } from '../user.schema';
 
 export interface Products {
   name: string;
   price: string;
   rate: number;
-  description: string;
+  description: string[];
   discount: boolean;
   discountPrice: number;
   vendor: string;
+  vendorId: number;
   uuid: string;
+  base64Photos: string[];
+  type: string;
+  color: string;
 }
 
 export type CategoryDocument = Category & Document;
-//TODO чуть улучшить связь моделей
+
 @Schema()
 export class Category {
   _id: any;
