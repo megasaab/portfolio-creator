@@ -1,7 +1,7 @@
 FROM node:14
 
 #create app directory
-WORKDIR /amazon-clone-server/src/app
+WORKDIR /portfolio-creator/src/app
 
 #install app dependencies (* copy package-SOME.json)
 COPY package*.json ./

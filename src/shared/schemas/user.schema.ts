@@ -1,4 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Project } from "./project.schema";
+import {Types} from "mongoose";
 
 export interface UserPayload {
   sub: string; // User ID
@@ -34,6 +36,8 @@ export class User {
   /* email address*/
   @Prop({ index: { unique: true } })
   email: string;
+  @Prop({type: [Types.ObjectId], ref: Project.name})
+  projects: Project[];
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);

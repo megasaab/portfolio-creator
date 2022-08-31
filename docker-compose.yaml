@@ -9,7 +9,7 @@ services:
     restart: always
     hostname: mongo
     networks:
-      - amazon
+      - portfolio
     ports:
       - 27017:27017
     working_dir: /data
@@ -20,4 +20,4 @@ volumes:
   mongo-volume:
 
 networks:
-  amazon:
+  portfolio:

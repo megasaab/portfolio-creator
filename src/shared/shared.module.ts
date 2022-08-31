@@ -8,6 +8,7 @@ import { User, UserSchema } from './schemas/user.schema';
 import { SecurityService } from './services/security/security.service';
 import { JwtAuthStrategy } from './services/security/jwt-auth-strategy';
 import { PwdAuthStrategy } from './services/security/pwd-auth-strategy';
+import { Project, ProjectSchema } from "./schemas/project.schema";
 
 @Module({
   imports: [
@@ -31,6 +32,7 @@ import { PwdAuthStrategy } from './services/security/pwd-auth-strategy';
       }),
     MongooseModule.forFeature([
       { name: User.name, schema: UserSchema },
+      { name: Project.name, schema: ProjectSchema }
     ])
   ],
   providers:[AuthService, SecurityService, JwtAuthStrategy, PwdAuthStrategy],
