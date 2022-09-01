@@ -13,7 +13,7 @@ export class AuthService {
   constructor(@InjectModel(User.name) private userModel: Model<UserDocument>, private securityService: SecurityService) {
   }
 
-  async login(userDto: any) {
+  async login(userDto: any): Promise<HttpResponse> {
     let httpResponse: HttpResponse;
     try {
       const accessToken = await this.securityService.generateJwtToken(userDto);
@@ -26,11 +26,11 @@ export class AuthService {
     return httpResponse ;
   }
 
-  async registration(userDto: UserInterface) {
+  async registration(userDto: UserInterface): Promise<HttpResponse> {
 
     let httpResponse: HttpResponse;
 
-    if (!(userDto.password && userDto.login && userDto.email || userDto.phone)) {
+    if (!(userDto.password && userDto.login && userDto.email && userDto.phone)) {
       return new HttpResponse(false, null, [[INVALID_CREDENTIALS, `new User: ${JSON.stringify(userDto)}`]]);
     }
 
@@ -45,7 +45,7 @@ export class AuthService {
       httpResponse = new HttpResponse(true, {
         user: {
           login: createdUser.login,
-          personalData: createdUser.phone || createdUser.email,
+          personalData: { phone: createdUser.phone, email: createdUser.email },
           createdAt: createdUser.createdAt
         },
         token: await this.securityService.generateJwtToken(createdUser)

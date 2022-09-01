@@ -1,4 +1,6 @@
 import {Prop, Schema, SchemaFactory} from '@nestjs/mongoose';
+import { Types } from "mongoose";
+import { Project } from "./project.schema";
 
 export type PortfolioDocument = Portfolio & Document;
 
@@ -10,7 +12,7 @@ export class Portfolio {
     @Prop()
     title: string;
     /* Created date */
-    @Prop()
+    @Prop({default: Date.now})
     date: Date;
     /* Technologies */
     @Prop()
@@ -21,9 +23,12 @@ export class Portfolio {
     /* Additional links */
     @Prop({type: [Object]})
     additionalLinks: string[];
-    /* Project screenshots */
-    @Prop({type: [Object]})
-    screenshots: string[];
+    /* Project logo */
+    @Prop()
+    logo: string;
+    /* Projects ids [] */
+    @Prop({type: [Types.ObjectId], ref: Project.name})
+    projects: Project[];
 }
 
 export const PortfolioSchema = SchemaFactory.createForClass(Portfolio);
