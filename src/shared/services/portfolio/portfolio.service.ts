@@ -3,7 +3,7 @@ import { Portfolio, PortfolioDocument } from "../../schemas/portfolio.schema";
 import { HttpResponse } from "../../../response";
 import { INTERNAL_ERROR } from "../../../constants";
 import { InjectModel } from "@nestjs/mongoose";
-import { Model } from "mongoose";
+import { Model, ObjectId } from "mongoose";
 import { User, UserDocument } from "../../schemas/user.schema";
 
 @Injectable()
@@ -19,6 +19,7 @@ export class PortfolioService {
 
     async createPortfolio(portfolioDto: Portfolio, userId: any): Promise<HttpResponse> {
         let httpResponse: HttpResponse;
+
         try {
             const portfolio = await this.portfolioModel.create(portfolioDto);
 
@@ -30,6 +31,21 @@ export class PortfolioService {
             this.logger.error(`Error while create portfolio: Portfolio ${portfolioDto}\n${err}`);
             httpResponse  = new HttpResponse(false, null, [[INTERNAL_ERROR, err.toString()]]);
         }
+
+        return httpResponse;
+    }
+
+    async getPortfolios(userId: ObjectId): Promise<HttpResponse> {
+        let httpResponse: HttpResponse;
+
+        try {
+            const user: User = await this.userModel.findOne(userId).lean().populate('portfolios');
+            httpResponse = new HttpResponse(true, user.portfolios);
+        } catch (err) {
+            this.logger.error(`Error while getting portfolio: \n${err}`);
+            httpResponse  = new HttpResponse(false, null, [[INTERNAL_ERROR, err.toString()]]);
+        }
+
         return httpResponse;
     }
 }
