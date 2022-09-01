@@ -1,5 +1,5 @@
 import {Body, Controller, Get, Post, Request, UseGuards} from '@nestjs/common';
-import { Portfolio } from "../../../shared/schemas/portfolio.schema";
+import {Portfolio, PortfolioDescriptionDto } from "../../../shared/schemas/portfolio.schema";
 import { PortfolioService } from "../../../shared/services/portfolio/portfolio.service";
 import {JwtAuthGuard} from "../../../shared/services/security/security-guards";
 import {ApiBearerAuth, ApiOperation, ApiResponse, ApiTags} from "@nestjs/swagger";
@@ -15,17 +15,26 @@ export class PortfolioController {
     ) {
     }
 
-    @ApiOperation({description: 'create portfolio for user'})
+    @ApiOperation({ description: 'create portfolio for user'})
     @ApiResponse({ type: HttpResponse })
     @Post('/create')
     async createPortfolio(@Body() portfolioDto: Portfolio, @Request() req) {
         return this.portfolioService.createPortfolio(portfolioDto, req.user._id);
     }
 
-    @ApiOperation({description: "get user's portfolios"})
+    @ApiOperation({ description: "get user's portfolios" })
     @ApiResponse({ type: HttpResponse })
     @Get('/get-portfolios')
     async getPortfolios(@Request() req) {
         return this.portfolioService.getPortfolios(req.user._id);
+    }
+
+    @ApiOperation({ description: 'edit description' })
+    @ApiResponse({ type: HttpResponse })
+    @Post('/edit')
+    editDescription(@Body() PortfolioDescriptionDto: PortfolioDescriptionDto) {
+        const { portfolio, id } = PortfolioDescriptionDto;
+
+        return this.portfolioService.editPortfolio(portfolio, id);
     }
 }

@@ -1,10 +1,24 @@
+import {ApiProperty} from "@nestjs/swagger";
+
 export class HttpResponse {
 
-  /* Result request handing */
+  @ApiProperty({
+    description: 'Result request handing',
+    example: 'true'
+  })
   success: boolean;
-  /* Returned data, if success = true */
+  @ApiProperty({
+    description: 'Returned data, if success = true',
+    example: this,
+  })
   data?: any;
-  /* Error describes, if success = false */
+  @ApiProperty({
+    description: 'Error describes, if success = false',
+    example: ' [\n' +
+        '            "Internal server error",\n' +
+        '            "MongoServerError: E11000 duplicate key error collection: portfolio-db.users index: login_1 dup key: { login: \\"something\\" }"\n' +
+        '        ]'
+  })
   errors?: any[];
 
   constructor(success: boolean, data?: any, errors?: any[]) {

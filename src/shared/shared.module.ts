@@ -1,6 +1,5 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from "@nestjs/mongoose";
-import { JWT_EXPIRES_IN, JWT_SECRET, MONGO_PASS, MONGO_URL, MONGO_USER } from "../constants";
 import { AuthService } from './services/auth/auth.service';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from "@nestjs/passport";
@@ -11,6 +10,7 @@ import { PwdAuthStrategy } from './services/security/pwd-auth-strategy';
 import { Project, ProjectSchema } from "./schemas/project.schema";
 import { Portfolio, PortfolioSchema } from "./schemas/portfolio.schema";
 import { PortfolioService } from "./services/portfolio/portfolio.service";
+import { JWT_EXPIRES_IN, JWT_SECRET, MONGO_PASS, MONGO_URL, MONGO_USER } from "../constants";
 
 @Module({
   imports: [

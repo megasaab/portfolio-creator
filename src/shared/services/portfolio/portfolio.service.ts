@@ -48,4 +48,18 @@ export class PortfolioService {
 
         return httpResponse;
     }
+
+    async editPortfolio(portfolioDto: Portfolio, id: ObjectId) {
+        let httpResponse: HttpResponse;
+
+        try {
+            const portfolio = await this.portfolioModel.findOneAndUpdate(id, portfolioDto, { new: true })
+            httpResponse = new HttpResponse(true, portfolio);
+        } catch (err) {
+            this.logger.error(`Error while editing portfolio: \n${err}`);
+            httpResponse  = new HttpResponse(false, null, [[INTERNAL_ERROR, err.toString()]]);
+        }
+
+        return httpResponse;
+    }
 }

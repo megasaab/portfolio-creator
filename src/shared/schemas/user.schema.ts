@@ -1,27 +1,39 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Types } from "mongoose";
 import { Portfolio } from "./portfolio.schema";
+import { ApiProperty } from "@nestjs/swagger";
+import { SWAGGER_PROPERTY } from "../../../swagger-property";
 
 export interface UserPayload {
   sub: string; // User ID
   name: string;
 }
 
+const USER_PROPERTY = SWAGGER_PROPERTY.USER;
+
+export class UserLogin {
+  @ApiProperty(USER_PROPERTY.LOGIN)
+  login: string;
+  @ApiProperty(USER_PROPERTY.PASSWORD)
+  password: string
+}
 
 export class UserInterface {
-  /* Login */
+  @ApiProperty(USER_PROPERTY.LOGIN)
   login?: string;
-  /* Password */
+
+  @ApiProperty(USER_PROPERTY.PASSWORD)
   password?: string;
-  /* Email */
+
+  @ApiProperty(USER_PROPERTY.EMAIL)
   email?: string;
-  /* Phone */
+
+  @ApiProperty(USER_PROPERTY.PHONE)
   phone?: string;
 }
 
 export type UserDocument = User & Document;
 
-/* User */
 @Schema()
 export class User {
   _id: any;
@@ -38,7 +50,7 @@ export class User {
   /*  Phone number */
   @Prop({ index: { unique: true } })
   phone: string;
-  /* email address*/
+  /* email address */
   @Prop({ index: { unique: true } })
   email: string;
   /* portfolios */
