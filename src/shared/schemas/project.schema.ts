@@ -2,6 +2,7 @@ import {Prop, Schema, SchemaFactory} from '@nestjs/mongoose';
 
 export type ProjectDocument = Project & Document;
 
+/* Project */
 @Schema()
 export class Project {
     _id: any

@@ -8,15 +8,20 @@ export interface UserPayload {
 }
 
 
-export interface UserInterface {
+export class UserInterface {
+  /* Login */
   login?: string;
+  /* Password */
   password?: string;
+  /* Email */
   email?: string;
+  /* Phone */
   phone?: string;
 }
 
 export type UserDocument = User & Document;
 
+/* User */
 @Schema()
 export class User {
   _id: any;
@@ -36,8 +41,10 @@ export class User {
   /* email address*/
   @Prop({ index: { unique: true } })
   email: string;
+  /* portfolios */
   @Prop({type: [Types.ObjectId], ref: Portfolio.name})
   portfolios: Portfolio[];
+  /* avatar */
   @Prop()
   avatar: string;
 }

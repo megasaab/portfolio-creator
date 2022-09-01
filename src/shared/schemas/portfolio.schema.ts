@@ -4,6 +4,7 @@ import { Project } from "./project.schema";
 
 export type PortfolioDocument = Portfolio & Document;
 
+/* Portfolio */
 @Schema()
 export class Portfolio {
     _id: any
@@ -17,7 +18,7 @@ export class Portfolio {
     /* Technologies */
     @Prop()
     technologies: string;
-    /* About project */
+    /* description project */
     @Prop()
     description: string;
     /* Additional links */
@@ -29,6 +30,9 @@ export class Portfolio {
     /* Projects ids [] */
     @Prop({type: [Types.ObjectId], ref: Project.name})
     projects: Project[];
+    /* exp in mark down */
+    @Prop({type: [Object]})
+    workExperience: string[];
 }
 
 export const PortfolioSchema = SchemaFactory.createForClass(Portfolio);
