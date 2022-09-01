@@ -9,6 +9,8 @@ import { SecurityService } from './services/security/security.service';
 import { JwtAuthStrategy } from './services/security/jwt-auth-strategy';
 import { PwdAuthStrategy } from './services/security/pwd-auth-strategy';
 import { Project, ProjectSchema } from "./schemas/project.schema";
+import { Portfolio, PortfolioSchema } from "./schemas/portfolio.schema";
+import { PortfolioService } from "./services/portfolio/portfolio.service";
 
 @Module({
   imports: [
@@ -19,7 +21,7 @@ import { Project, ProjectSchema } from "./schemas/project.schema";
     }),
     JwtModule.register({
       secret: JWT_SECRET,
-      signOptions: { issuer: 'amazon-clone',  expiresIn: JWT_EXPIRES_IN },
+      signOptions: { issuer: 'portfolio-creator',  expiresIn: JWT_EXPIRES_IN },
     }),
     MongooseModule.forRoot(MONGO_URL,
       {
@@ -32,10 +34,11 @@ import { Project, ProjectSchema } from "./schemas/project.schema";
       }),
     MongooseModule.forFeature([
       { name: User.name, schema: UserSchema },
-      { name: Project.name, schema: ProjectSchema }
+      { name: Project.name, schema: ProjectSchema },
+      { name: Portfolio.name, schema: PortfolioSchema}
     ])
   ],
-  providers:[AuthService, SecurityService, JwtAuthStrategy, PwdAuthStrategy],
-  exports: [AuthService, SecurityService, PassportModule]
+  providers:[AuthService, SecurityService, JwtAuthStrategy, PwdAuthStrategy, PortfolioService],
+  exports: [AuthService, SecurityService, PassportModule, PortfolioService]
 })
 export class SharedModule {}

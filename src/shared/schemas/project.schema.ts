@@ -12,9 +12,6 @@ export class Project {
     /* Created date */
     @Prop()
     date: Date;
-    /* Technologies */
-    @Prop()
-    technologies: string;
     /* About project */
     @Prop()
     about: string;
@@ -24,9 +21,8 @@ export class Project {
     /* Additional links */
     @Prop({type: [Object]})
     additionalLinks: string[];
-    /* Project screenshots */
-    @Prop({type: [Object]})
-    screenshots: string[];
+    @Prop()
+    logo: string;
 }
 
 export const ProjectSchema = SchemaFactory.createForClass(Project);

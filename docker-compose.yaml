@@ -4,8 +4,8 @@ services:
   mongo:
     image: mongo:4.4.6-bionic
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=amazon-root
-      - MONGO_INITDB_ROOT_PASSWORD=amazon-root
+      - MONGO_INITDB_ROOT_USERNAME=portfolio-root
+      - MONGO_INITDB_ROOT_PASSWORD=portfolio-root
     restart: always
     hostname: mongo
     networks:
