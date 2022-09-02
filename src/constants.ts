@@ -10,3 +10,4 @@ export const BCRYPT_HASH_ROUNDS = 10;
 // Errors
 export const INTERNAL_ERROR = 'Internal server error';
 export const INVALID_CREDENTIALS = 'Invalid Credentials';
+export const NOT_FOUND = 'Not Found';

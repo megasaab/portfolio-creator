@@ -16,6 +16,11 @@ export class PortfolioDescriptionDto {
     id: ObjectId;
 }
 
+export class DeletePortfolioDto {
+    @ApiProperty(PORTFOLIO_PROPERTY.ID)
+    id: ObjectId;
+}
+
 @Schema()
 export class Portfolio {
     _id: any

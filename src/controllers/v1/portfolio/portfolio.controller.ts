@@ -1,5 +1,9 @@
-import {Body, Controller, Get, Post, Request, UseGuards} from '@nestjs/common';
-import {Portfolio, PortfolioDescriptionDto } from "../../../shared/schemas/portfolio.schema";
+import {Body, Controller, Delete, Get, Post, Request, UseGuards} from '@nestjs/common';
+import {
+    DeletePortfolioDto,
+    Portfolio,
+    PortfolioDescriptionDto
+} from "../../../shared/schemas/portfolio.schema";
 import { PortfolioService } from "../../../shared/services/portfolio/portfolio.service";
 import {JwtAuthGuard} from "../../../shared/services/security/security-guards";
 import {ApiBearerAuth, ApiOperation, ApiResponse, ApiTags} from "@nestjs/swagger";
@@ -37,4 +41,15 @@ export class PortfolioController {
 
         return this.portfolioService.editPortfolio(portfolio, id);
     }
+
+
+    @ApiOperation({ description: 'edit description' })
+    @ApiResponse({ type: HttpResponse })
+    @Delete('/delete')
+    deletePortfolio(@Body() body: DeletePortfolioDto) {
+        const { id } =  body;
+
+        return this.portfolioService.deletePortfolio(id);
+    }
+
 }

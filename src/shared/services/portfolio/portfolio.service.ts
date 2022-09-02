@@ -1,7 +1,7 @@
 import {Injectable, Logger } from '@nestjs/common';
 import { Portfolio, PortfolioDocument } from "../../schemas/portfolio.schema";
 import { HttpResponse } from "../../../response";
-import { INTERNAL_ERROR } from "../../../constants";
+import { INTERNAL_ERROR, NOT_FOUND } from "../../../constants";
 import { InjectModel } from "@nestjs/mongoose";
 import { Model, ObjectId } from "mongoose";
 import { User, UserDocument } from "../../schemas/user.schema";
@@ -26,7 +26,7 @@ export class PortfolioService {
             await this.userModel.findOneAndUpdate(userId, {
                 $push: { portfolios: portfolio }
             });
-            httpResponse = new HttpResponse(true, null);
+            httpResponse = new HttpResponse(true, portfolio);
         } catch (err) {
             this.logger.error(`Error while create portfolio: Portfolio ${portfolioDto}\n${err}`);
             httpResponse  = new HttpResponse(false, null, [[INTERNAL_ERROR, err.toString()]]);
@@ -49,7 +49,7 @@ export class PortfolioService {
         return httpResponse;
     }
 
-    async editPortfolio(portfolioDto: Portfolio, id: ObjectId) {
+    async editPortfolio(portfolioDto: Portfolio, id: ObjectId): Promise<HttpResponse> {
         let httpResponse: HttpResponse;
 
         try {
@@ -62,4 +62,23 @@ export class PortfolioService {
 
         return httpResponse;
     }
+
+    async deletePortfolio(id: ObjectId) {
+        let httpResponse: HttpResponse;
+
+        try {
+            const portfolio = await this.portfolioModel.findOne({_id: id});
+            if (!portfolio) {
+                return new HttpResponse(false,null, [NOT_FOUND]);
+            }
+            await this.portfolioModel.deleteOne({_id: id});
+            httpResponse = new HttpResponse(true,null);
+        } catch (err) {
+            this.logger.error(`Error while deleting portfolio: \n${err}`);
+            httpResponse  = new HttpResponse(false, null, [[INTERNAL_ERROR, err.toString()]]);
+        }
+
+        return httpResponse;
+    }
+
 }
