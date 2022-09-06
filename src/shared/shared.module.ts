@@ -10,7 +10,18 @@ import { PwdAuthStrategy } from './services/security/pwd-auth-strategy';
 import { Project, ProjectSchema } from "./schemas/project.schema";
 import { Portfolio, PortfolioSchema } from "./schemas/portfolio.schema";
 import { PortfolioService } from "./services/portfolio/portfolio.service";
-import { JWT_EXPIRES_IN, JWT_SECRET, MONGO_PASS, MONGO_URL, MONGO_USER } from "../constants";
+import {
+  JWT_EXPIRES_IN,
+  JWT_SECRET,
+  MAILER_HOST,
+  MAILER_PASS,
+  MAILER_USER,
+  MONGO_PASS,
+  MONGO_URL,
+  MONGO_USER
+} from "../constants";
+import { MailService } from "./services/mail/mail.service";
+import { MailerModule } from "@nestjs-modules/mailer";
 
 @Module({
   imports: [
@@ -36,9 +47,18 @@ import { JWT_EXPIRES_IN, JWT_SECRET, MONGO_PASS, MONGO_URL, MONGO_USER } from ".
       { name: User.name, schema: UserSchema },
       { name: Project.name, schema: ProjectSchema },
       { name: Portfolio.name, schema: PortfolioSchema}
-    ])
+    ]),
+    MailerModule.forRoot({
+      transport: {
+        host: MAILER_HOST,
+        auth: {
+          user: MAILER_USER,
+          pass: MAILER_PASS
+        }
+      },
+    }),
   ],
-  providers:[AuthService, SecurityService, JwtAuthStrategy, PwdAuthStrategy, PortfolioService],
-  exports: [AuthService, SecurityService, PassportModule, PortfolioService]
+  providers:[AuthService, SecurityService, JwtAuthStrategy, PwdAuthStrategy, PortfolioService, MailService],
+  exports: [AuthService, SecurityService, PassportModule, PortfolioService, MailService]
 })
 export class SharedModule {}
