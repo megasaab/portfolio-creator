@@ -36,14 +36,14 @@ export class PortfolioController {
     @ApiOperation({ description: 'edit description' })
     @ApiResponse({ type: HttpResponse })
     @Post('/edit')
-    editDescription(@Body() PortfolioDescriptionDto: PortfolioDescriptionDto) {
+    edit(@Body() PortfolioDescriptionDto: PortfolioDescriptionDto) {
         const { portfolio, id } = PortfolioDescriptionDto;
 
         return this.portfolioService.editPortfolio(portfolio, id);
     }
 
 
-    @ApiOperation({ description: 'edit description' })
+    @ApiOperation({ description: 'delete description' })
     @ApiResponse({ type: HttpResponse })
     @Delete('/delete')
     deletePortfolio(@Body() body: DeletePortfolioDto) {
