@@ -22,6 +22,7 @@ import {
 } from "../constants";
 import { MailService } from "./services/mail/mail.service";
 import { MailerModule } from "@nestjs-modules/mailer";
+import {ProjectService} from "./services/project/project.service";
 
 @Module({
   imports: [
@@ -58,7 +59,7 @@ import { MailerModule } from "@nestjs-modules/mailer";
       },
     }),
   ],
-  providers:[AuthService, SecurityService, JwtAuthStrategy, PwdAuthStrategy, PortfolioService, MailService],
-  exports: [AuthService, SecurityService, PassportModule, PortfolioService, MailService]
+  providers:[AuthService, SecurityService, JwtAuthStrategy, PwdAuthStrategy, PortfolioService, MailService, ProjectService],
+  exports: [AuthService, SecurityService, PassportModule, PortfolioService, MailService, ProjectService]
 })
 export class SharedModule {}
